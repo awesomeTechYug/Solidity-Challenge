@@ -83,13 +83,16 @@ contract Ballot {
         }
     }
 
+error votingEnded(uint start, uint endtime, string message);
 
 //modifier to check if voted within voting timeperiod
     modifier voteEnded() {
-    require(block.timestamp <= startTime + 300 seconds, "Voting period has ended");
+    if(block.timestamp >= startTime + 300 seconds){
+
+     revert votingEnded({start: startTime, endtime: block.timestamp, message:"Voting period has ended"});
+     }
     _;
 }
-
     
     function vote(uint proposal) external voteEnded {
         Voter storage sender = voters[msg.sender];
