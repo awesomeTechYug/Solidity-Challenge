@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.20;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
+
+contract PratikToken is ERC20("Pratik Token", "PK"){
+
+   function mint(address account, uint256 value) internal {
+        if (account == address(0)) {
+            revert ERC20InvalidReceiver(address(0));
+        }
+        _update(address(0), account, value);
+    }
+
+    function mint_it() public{
+        mint(msg.sender, 5* 10**18);
+    }
+  
+ function burn(address account, uint256 value) internal {
+        if (account == address(0)) {
+            revert ERC20InvalidSender(address(0));
+        }
+        _update(account, address(0), value);
+    }
+
+     function burn_it(address account, uint256 amount) public  {
+        burn(account, amount);
+    }
+    
+}
